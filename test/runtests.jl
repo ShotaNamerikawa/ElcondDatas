@@ -1,6 +1,6 @@
-using ElcondDatas
+using NevanlinnaCalc
 using Test
 
-@testset "ElcondDatas.jl" begin
+@testset "NevanlinnaCalc.jl" begin
     # Write your tests here.
 end
