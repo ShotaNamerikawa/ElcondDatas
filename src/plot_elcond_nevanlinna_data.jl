@@ -15,11 +15,11 @@ mutable struct CalcData
                       expression,
                       temperature
                       ;
-                     elcond_kwargs=Dict(),
-                     xdata="mu", 
-                     element = nothing,
-                     fermi_energy::Float64 = 0.0
-                     )
+                      elcond_kwargs=Dict(),
+                      xdata="mu", 
+                      element = nothing,
+                      fermi_energy::Float64 = 0.0
+                      )
         cdata = new()
         cdata.dir = dir
         cdata.file_expression = expression
@@ -56,4 +56,13 @@ function reset_N_imag!(cdata::CalcData;N_imag::Union{Int64,Nothing}=nothing,N_im
     cal_static_conductivities!(cdata)
     cal_N_imags!(cdata)
     return 0
+end
+
+#when set precision, call this function!
+function setprecision!(cdata::CalcData,precision)
+    setprecision(precision)
+    cdata = CalcData(cdata.dir,cdata.file_expression,cdata.temperature,
+                    ;elcond_kwargs = cdata.elcond_kwargs,xdata=cdata.xdata,
+                     element = cdata.element,
+                     fermi_energy = cdata.fermi_energy)
 end
