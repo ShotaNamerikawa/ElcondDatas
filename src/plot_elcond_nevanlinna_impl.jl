@@ -1,4 +1,4 @@
-function cal_N_imags!(cdata::CalcData)
+function cal_N_imags!(cdata::CalcData{Nevanlinna})
     cdata.N_imag_list = Int64[]
     for ndata in cdata.ndatas
         append!(cdata.N_imag_list,ndata.N_imag)
