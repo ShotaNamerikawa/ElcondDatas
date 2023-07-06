@@ -1,13 +1,10 @@
 mutable struct CalcData
     dir::String
-    files::Array{String}
-    file_expression::Regex
-    xdata::String
+    fnamereader::Reader
     temperature::Float64
     element::Union{String,Nothing}
     elcond_kwargs::Dict
     ndatas::Array{NevanlinnaRealData}
-    xdata_list::Array{Float64}
     elcond_list::Array{Float64}
     N_imag_list::Array{Int64}
     fermi_energy::Float64
@@ -37,6 +34,16 @@ mutable struct CalcData
         cal_static_conductivities!(cdata)
         cal_N_imags!(cdata)
         cdata
+    end
+end
+
+function Base.getproperty(cdata::CalcData,d::Symbol)
+    if d === :files
+        return cdata.fnamereader.file_data_list
+    elseif d === :xdata_list
+        return cdata.fnamereader.data_list
+    else
+        return Base.getfield(cdata, d)
     end
 end
 
