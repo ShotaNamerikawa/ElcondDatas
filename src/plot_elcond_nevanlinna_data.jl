@@ -4,6 +4,7 @@ mutable struct CalcData{T<:AC}
     temperature::Float64
     element::Union{String,Nothing}
     elcond_kwargs::Dict
+    xdata::String
     ndatas::Array{NevanlinnaRealData}
     elcond_list::Array{Float64}
     N_imag_list::Array{Int64}
@@ -29,6 +30,7 @@ mutable struct CalcData{T<:AC}
                             :eta => 0.000001, #10^(-6)
                             :N_imag_reduce => 1)
         cdata.elcond_kwargs = merge(default_kwargs,elcond_kwargs)
+        cdata.xdata = xdata
         get_information_from_files!(cdata)
         cal_static_conductivities!(cdata)
         cal_N_imags!(cdata)
@@ -40,6 +42,8 @@ function Base.getproperty(cdata::CalcData,d::Symbol)
     if d === :files
         return cdata.fnamereader.file_list
     elseif d === :xdata_list
+        println("xdata")
+        println(Symbol(cdata.xdata))
         return cdata.fnamereader.data_list[Symbol(cdata.xdata)]# FixMe data_list is now dictionary
     else
         return Base.getfield(cdata, d)
