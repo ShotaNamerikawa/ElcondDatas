@@ -1,4 +1,4 @@
-mutable struct CalcData
+mutable struct CalcData{T<:AC} 
     dir::String
     fnamereader::Reader
     temperature::Float64
@@ -14,13 +14,13 @@ mutable struct CalcData
                       ;
                       elcond_kwargs=Dict(),
                       xdata="mu", 
+                      xdata_type = Float64,
                       element = nothing,
-                      fermi_energy::Float64 = 0.0
-                      )
-        cdata = new()
+                      fermi_energy::Float64 = 0.0,
+                      ac_type::T=Nevanlinna) where {T<:Type}
+        cdata = new{ac_type}()
         cdata.dir = dir
-        cdata.file_expression = expression
-        cdata.xdata = xdata
+        cdata.fnamereader = Reader(dir,expression,Symbol(xdata),xdata_type)
         cdata.temperature = temperature
         cdata.element = element
         cdata.fermi_energy = fermi_energy 
@@ -29,7 +29,6 @@ mutable struct CalcData
                             :eta => 0.000001, #10^(-6)
                             :N_imag_reduce => 1)
         cdata.elcond_kwargs = merge(default_kwargs,elcond_kwargs)
-        cdata.files = get_file(cdata)
         get_information_from_files!(cdata)
         cal_static_conductivities!(cdata)
         cal_N_imags!(cdata)
@@ -39,9 +38,9 @@ end
 
 function Base.getproperty(cdata::CalcData,d::Symbol)
     if d === :files
-        return cdata.fnamereader.file_data_list
+        return cdata.fnamereader.file_list
     elseif d === :xdata_list
-        return cdata.fnamereader.data_list
+        return cdata.fnamereader.data_list[Symbol(cdata.xdata)]# FixMe data_list is now dictionary
     else
         return Base.getfield(cdata, d)
     end
@@ -68,7 +67,8 @@ end
 function setprecision!(cdata::CalcData,precision)
     setprecision(precision)
     cdata = CalcData(cdata.dir,cdata.file_expression,cdata.temperature,
-                    ;elcond_kwargs = cdata.elcond_kwargs,xdata=cdata.xdata,
+                    ;elcond_kwargs = cdata.elcond_kwargs,
+                     xdata=cdata.xdata,
                      element = cdata.element,
                      fermi_energy = cdata.fermi_energy)
 end

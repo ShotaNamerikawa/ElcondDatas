@@ -2,7 +2,7 @@
     CalcData
 abstact type for electrical conductivity calculation.
 """
-abstract type CalcData{S<:AC} end
+abstract type AbstractCalcData end
 
 """
 change precision of CalcData
