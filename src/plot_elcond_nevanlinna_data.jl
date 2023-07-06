@@ -25,8 +25,8 @@ mutable struct CalcData
         cdata.element = element
         cdata.fermi_energy = fermi_energy 
         default_kwargs=Dict(:N_real => 2,
-                            :omega_max_in_eV => 0.00001,
-                            :eta => 0.000001,
+                            :omega_max_in_eV => 0.00001, #10^(-6)
+                            :eta => 0.000001, #10^(-6)
                             :N_imag_reduce => 1)
         cdata.elcond_kwargs = merge(default_kwargs,elcond_kwargs)
         cdata.files = get_file(cdata)
@@ -59,7 +59,6 @@ function reset_N_imag!(cdata::CalcData;N_imag::Union{Int64,Nothing}=nothing,N_im
     else
         return 1
     end
-    get_information_from_files!(cdata)
     cal_static_conductivities!(cdata)
     cal_N_imags!(cdata)
     return 0
