@@ -1,11 +1,14 @@
 name = "ElcondDatas"
 uuid = "394f4165-0384-4d45-bd9d-522f0e3aa673"
 authors = ["= <=> and contributors"]
-version = "1.0.0-DEV"
+version = "0.1.0"
 
 [deps]
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+Nevanlinna = "5c612304-5d8e-4cf8-81ba-0af7711352ca"
 NevanlinnaCalc = "48b6fe86-65da-47d3-b19c-ae6a21acf2c8"
+Pade = "4ff4858b-7610-4ea3-8583-060dc30e67dc"
+SparseIR_utils = "81c3daae-dc6b-4aad-b691-892ecc993760"
 
 [compat]
 julia = "1.7"

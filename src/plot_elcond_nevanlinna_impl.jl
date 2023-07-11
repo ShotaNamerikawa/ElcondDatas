@@ -1,13 +1,13 @@
-function cal_N_imags!(cdata::CalcData{Nevanlinna})
+function cal_N_imags!(cdata::CalcData{NevanlinnaRealData})
     cdata.N_imag_list = Int64[]
-    for ndata in cdata.ndatas
+    for ndata in cdata.ipdatas
         append!(cdata.N_imag_list,ndata.N_imag)
     end
 end
 
-function cal_static_conductivities!(cdata::CalcData)
+function cal_static_conductivities!(cdata::CalcData{NevanlinnaRealData})
     cdata.elcond_list = Float64[]
-    for ndata in cdata.ndatas
+    for ndata in cdata.ipdatas
         elcond = cal_static_conductivity(ndata)
         append!(cdata.elcond_list,elcond)
     end

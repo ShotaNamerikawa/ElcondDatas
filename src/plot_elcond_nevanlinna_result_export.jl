@@ -10,7 +10,7 @@ function export_data(cdata::CalcData,prefix::String)
         "N_imag_min" => minimum(cdata.N_imag_list),
         "N_imag_max" => maximum(cdata.N_imag_list),
         "eta" => cdata.elcond_kwargs[:eta],
-        "wmax" => cdata.ndatas[1].omega_max
+        "wmax" => cdata.ipdatas[1].omega_max
     )
     TOML.print(f,data)
     close(f)
