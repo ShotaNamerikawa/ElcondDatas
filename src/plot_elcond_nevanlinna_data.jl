@@ -80,6 +80,9 @@ function merge_elcond_kwargs!(cdata::CalcData{NevanlinnaRealData},elcond_kwargs)
     return merge(default_kwargs, elcond_kwargs)
 end
 
+"""
+apply default setting for Pade interpolation.
+"""
 function merge_elcond_kwargs!(cdata::CalcData{PadeData},elcond_kwargs)
     default_kwargs = Dict(:statistics => "F",:N_imag_reduce => 1)
     elcond_kwargs = merge(default_kwargs,elcond_kwargs)

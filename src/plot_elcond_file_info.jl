@@ -16,13 +16,14 @@ function get_data_from_file!(cdata::CalcData{PadeData}, file::String)
             Pick_num = Pade.apply_Pick_condition_Fermi!(padedata; N_imag_reduce=N_imag_reduce)
             push!(cdata.N_imag_list, Pick_num - N_imag_reduce)
         end
-        #ph symmetry
+        #particle hole symmetry
         if haskey(cdata.elcond_kwargs, :ph_symmetry) && cdata.elcond_kwargs[:ph_symmetry] == true
             println("ph symmery is imposed to sample value!")
             padedata.sample_value = 1.0im*imag.(padedata.sample_value)
         end
     else cdata.elcond_kwargs[:statistics] == "B"
         padedata.sample_value = -padedata.sample_value #input value is minus correlation function for Boson!  
+        #particle hole symmetry
         if haskey(cdata.elcond_kwargs, :ph_symmetry) && cdata.elcond_kwargs[:ph_symmetry] == true
             println("ph symmery is imposed to sample value!")
             padedata.sample_value = real.(padedata.sample_value)
